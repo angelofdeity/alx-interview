@@ -1,4 +1,8 @@
+"""Pascal Triangle module"""
+
+
 def pascal_triangle(n):
+    """Generates a list of lists based on pascal triangle"""
     pascal_t = []
     for i in range(1, n + 1):
         row = [1] * (i)
