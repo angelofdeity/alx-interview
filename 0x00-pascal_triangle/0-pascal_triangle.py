@@ -6,6 +6,3 @@ def pascal_triangle(n):
             row[j - 1] = pascal_t[i - 2][j - 2] + pascal_t[i - 2][j - 1]
         pascal_t.append(row)
     return pascal_t
-
-
-print(pascal_triangle(300))
