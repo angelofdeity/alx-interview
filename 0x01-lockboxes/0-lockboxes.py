@@ -4,10 +4,12 @@
 
 def canUnlockAll(boxes):
     """
-    Checks if all boxes can be unlocked by iterating through keys stored while visiting boxes.
+    Checks if all boxes can be unlocked by iterating through
+    keys stored while visiting boxes.
 
     Args:
-        boxes (list[list[int]]): A list of lists representing the boxes and their corresponding keys.
+        boxes (list[list[int]]): A list of lists representing
+        the boxes and their corresponding keys.
 
     Returns:
         bool: True if all boxes can be unlocked, False otherwise.
