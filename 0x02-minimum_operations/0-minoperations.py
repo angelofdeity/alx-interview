@@ -10,10 +10,10 @@ def minOperations(n):
         exactly n H characters in the file."""
     sumfactors = 0
     i = 2
-    while i <= n:
-        if not n % i:
-            n /= i
+    while i * i <= n:
+        if n % i == 0:
+            n //= i
             sumfactors += i
         else:
             i += 1
-    return sumfactors
+    return sumfactors + n if n > 1 else sumfactors
