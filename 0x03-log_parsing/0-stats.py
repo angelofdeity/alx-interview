@@ -16,14 +16,15 @@ def print_stats():
 try:
     for line in sys.stdin:
         values = line.split(" ")
-        code = values[-2]
-        size = int(values[-1])
-        if code in codes:
-            codes[code] += 1
-        total_size += size
-        count += 1
-        if count == 10:
-            count = 0
-            print_stats()
+        if values:
+            code = values[-2]
+            size = int(values[-1])
+            if code in codes:
+                codes[code] += 1
+            total_size += size
+            count += 1
+            if count == 10:
+                count = 0
+                print_stats()
 finally:
     print_stats()
