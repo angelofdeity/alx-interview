@@ -1,35 +1,27 @@
 #!/usr/bin/node
-const request = require('request');
-const movieId = process.argv[2];
+const util = require('util');
+const request = util.promisify(require('request'));
+const filmId = process.argv[2];
 
-function getCharactersFromMovie(movieId) {
-  // Define the base URL for the Star Wars API
-  const baseUrl = 'https://swapi.dev/api/';
+async function starwarsCharacters(filmId) {
+  const endpoint = `https://swapi-api.hbtn.io/api/films/${filmId}`;
+  try {
+    const response = await request(endpoint);
+    const filmData = JSON.parse(response.body);
+    const characters = filmData.characters;
 
-  // Define the endpoint for films
-  const filmsEndpoint = `films/${movieId}/`;
-
-  // Send a GET request to the films endpoint
-  request(baseUrl + filmsEndpoint, (error, response, body) => {
-    if (!error && response.statusCode === 200) {
-      const data = JSON.parse(body);
-      const characters = data.characters;
-
-      // Fetch character names using the character URLs
-      characters.forEach(characterUrl => {
-        request(characterUrl, (charError, charResponse, charBody) => {
-          if (!charError && charResponse.statusCode === 200) {
-            const characterData = JSON.parse(charBody);
-            console.log(characterData.name);
-          } else {
-            console.error('Error fetching character data:', charError);
-          }
-        });
-      });
-    } else {
-      console.error('Error fetching film data:', error);
+    for (const characterUrl of characters) {
+      try {
+        const characterResponse = await request(characterUrl);
+        const characterData = JSON.parse(characterResponse.body);
+        console.log(characterData.name);
+      } catch (error) {
+        console.error('Error fetching character data:', error);
+      }
     }
-  });
+  } catch (error) {
+    console.error('Error fetching film data:', error);
+  }
 }
 
-getCharactersFromMovie(movieId)
+starwarsCharacters(filmId);
