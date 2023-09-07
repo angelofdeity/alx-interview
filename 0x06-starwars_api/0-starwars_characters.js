@@ -1,20 +1,35 @@
 #!/usr/bin/node
 const request = require('request');
-const url = 'https://swapi-api.hbtn.io/api/films/';
 const movieId = process.argv[2];
-request(url + movieId, function (error, response, body) {
-  if (error) {
-    console.log(error);
-  } else {
-    const characters = JSON.parse(body).characters;
-    for (const character of characters) {
-      request(character, function (error, response, body) {
-        if (error) {
-          console.log(error);
-        } else {
-          console.log(JSON.parse(body).name);
-        }
+
+function getCharactersFromMovie(movieId) {
+  // Define the base URL for the Star Wars API
+  const baseUrl = 'https://swapi.dev/api/';
+
+  // Define the endpoint for films
+  const filmsEndpoint = `films/${movieId}/`;
+
+  // Send a GET request to the films endpoint
+  request(baseUrl + filmsEndpoint, (error, response, body) => {
+    if (!error && response.statusCode === 200) {
+      const data = JSON.parse(body);
+      const characters = data.characters;
+
+      // Fetch character names using the character URLs
+      characters.forEach(characterUrl => {
+        request(characterUrl, (charError, charResponse, charBody) => {
+          if (!charError && charResponse.statusCode === 200) {
+            const characterData = JSON.parse(charBody);
+            console.log(characterData.name);
+          } else {
+            console.error('Error fetching character data:', charError);
+          }
+        });
       });
+    } else {
+      console.error('Error fetching film data:', error);
     }
-  }
-} );
+  });
+}
+
+getCharactersFromMovie(movieId)
