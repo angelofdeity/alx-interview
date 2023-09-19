@@ -1,7 +1,9 @@
 #!/usr/bin/python3
+"""Make Change"""
 
 
 def makeChange(coins, total):
+    """Sort the coins and reduce the total based on the largest coin"""
     coins.sort()
     neededCoins = 0
     while total > 0:
