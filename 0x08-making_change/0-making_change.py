@@ -12,8 +12,3 @@ def makeChange(coins, total):
         neededCoins += (total // coin)
         total %= coin
     return neededCoins
-
-
-print(makeChange([1, 2, 25], -1))
-
-print(makeChange([1256, 54, 48, 16, 102], 1453))
